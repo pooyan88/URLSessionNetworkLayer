@@ -7,32 +7,20 @@
 
 import Foundation
 
-import Foundation
-
-final class TestWebService: NetworkCall {
+final class TestWebService: WebService {
     
     let factory = RequestFactory()
     
-    func baseRequest<T: Codable>(feature: APIFeature) async throws -> T where T : Decodable, T : Encodable {
-        let requestManager = factory.createRequest(for: feature)
-        
-        // Conditional code for loading mock data during tests
-        var fileName = ""
-        #if CreateASimpleNetworkLayerTests
-        if let urlString = requestManager.url?.absoluteString, urlString.contains("post") {
-            // Mock response for testing
-            fileName = "mockResponse"
-        }
-        loadFromFile(fileName: fileName)
-        #else
-        fatalError("No mock data provided for \(feature)")
-        #endif
+    override func baseRequest<T: Codable>(feature: APIFeature) async throws -> T where T : Decodable, T : Encodable {
+    
+        return PostDetailsResponse(userID: 10000, ID: 10000, title: "mock title", body: "mock body") as! T
     }
     
     // Method to load mock data from a local file
-    func loadFromFile<T: Codable>(fileName: String, bundle: Bundle = .main) async throws -> T {
-        guard let url = bundle.url(forResource: fileName, withExtension: "json") else {
-            throw NSError(domain: "TestWebService", code: 404, userInfo: [NSLocalizedDescriptionKey: "Mock file not found"])
+    func loadFromFile<T: Codable>(fileName: String) async throws -> T {
+        guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {
+            print("\(fileName) not found")
+            throw NSError(domain: "TestWebService", code: 404, userInfo: [NSLocalizedDescriptionKey: "\(fileName) with .json extension not found"])
         }
         
         let data = try Data(contentsOf: url)

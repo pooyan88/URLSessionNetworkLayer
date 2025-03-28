@@ -9,7 +9,8 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    let webService = WebService()
+    var webService = WebService()
+    var post: PostDetailsResponse?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,7 +18,7 @@ class ViewController: UIViewController {
         Task { @MainActor in
             do {
                 // Fetch users using the WebService
-                let post = try await webService.fetchPostDetails(id: 1)
+                 post = try await webService.fetchPostDetails(id: 1)
                 print("post fetched: \(post)")
             } catch {
                 print("Error occurred: \(error)")

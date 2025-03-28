@@ -26,28 +26,16 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
-				mockResponse.text,
 			);
 			target = A29F9D232D967D2B0033267A /* CreateASimpleNetworkLayer */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		A2E570682D96D46700DA3594 /* Exceptions for "CreateASimpleNetworkLayer" folder in "Compile Sources" phase from "CreateASimpleNetworkLayer" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = A29F9D202D967D2B0033267A /* Sources */;
-			membershipExceptions = (
-				mockResponse.text,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A29F9D262D967D2B0033267A /* CreateASimpleNetworkLayer */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				A29F9D362D967D2B0033267A /* Exceptions for "CreateASimpleNetworkLayer" folder in "CreateASimpleNetworkLayer" target */,
-				A2E570682D96D46700DA3594 /* Exceptions for "CreateASimpleNetworkLayer" folder in "Compile Sources" phase from "CreateASimpleNetworkLayer" target */,
 			);
 			path = CreateASimpleNetworkLayer;
 			sourceTree = "<group>";
@@ -409,6 +397,7 @@
 				DEVELOPMENT_TEAM = NA979M4P72;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
+				"OTHER_SWIFT_FLAGS[arch=*]" = "-DTEST";
 				PRODUCT_BUNDLE_IDENTIFIER = test.CreateASimpleNetworkLayerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
