@@ -28,7 +28,7 @@ class NetworkInterceptor {
                 return (data, response)
             } catch {
                 if shouldRetry(error: error), retries < maxRetryCount {
-                    let delay = retryDelay * pow(2.0, Double(retries)) // create a delay for recall
+                    let delay = retryDelay * pow(2.0, Double(retries)) // create a delay before recall
                     print("Retrying request (\(retries + 1)) after \(delay) seconds due to error: \(error.localizedDescription)")
                     
                     try await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000)) // Convert seconds to nanoseconds
