@@ -12,35 +12,50 @@ final class WebService {
     enum RequestError: Error {
         case invalidURL
         case decodingFailed
+        case badServerResponse
+        case customError(String)
     }
     
     private let interceptor = NetworkInterceptor() // Use the interceptor
     private let factory = RequestFactory()
+    
+    // Use the feature to customize the requests
     var feature: APIFeature
+    
     init(feature: APIFeature) {
         self.feature = feature
     }
     
-    func baseRequest<T: Codable>(_ feature: APIFeature) async throws -> T {
+    func baseRequest<T: Codable>() async throws -> T {
+        // Generate the request using the feature
+        let requestManager = factory.createRequest(for: feature)
         
-        let (data, response) = try await interceptor.request(factory.createRequest(for: feature).asURLRequest())
+        // Make the actual request using the interceptor
+        let (data, response) = try await interceptor.request(try requestManager.asURLRequest())
         
+        // Handle HTTP response
         if let response = response as? HTTPURLResponse {
             print("HTTP Response: \(response.statusCode)")
             switch response.statusCode {
             case 200...299:
-                dump("Request Succeed Code ==> \(response.statusCode)")
+                print("Request Succeeded Code ==> \(response.statusCode)")
             case 400...499:
-                dump("Request Failed Code ==> \(response.statusCode)")
+                print("Client Error: \(response.statusCode)")
+                throw RequestError.customError("Client error, status: \(response.statusCode)")
+            case 500...599:
+                print("Server Error: \(response.statusCode)")
+                throw RequestError.customError("Server error, status: \(response.statusCode)")
             default:
-                dump(response.statusCode)
+                print("Unhandled status code: \(response.statusCode)")
             }
         }
         
+        // Print raw response data for debugging
         if let rawString = String(data: data, encoding: .utf8) {
             print("Raw Response Data: \(rawString)")
         }
         
+        // Decode the data into the model
         do {
             let decodedData = try JSONDecoder().decode(T.self, from: data)
             return decodedData
@@ -51,8 +66,12 @@ final class WebService {
     }
 }
 
+// Extension for fetching users
 extension WebService {
     func fetchUsers() async throws -> [User] {
-        return try await baseRequest(.users(UserRequestManager))
+        let requestManager: UserRequestManager = .getUsers
+        self.feature = .users(requestManager) // Set the feature for the request
+        return try await baseRequest() // Call baseRequest without needing to pass feature
     }
 }
+

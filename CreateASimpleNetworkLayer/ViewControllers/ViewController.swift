@@ -9,20 +9,22 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    let webService = WebService()
-
+    // Instantiate WebService with a specific feature
+    let requestManager: UserRequestManager = .getUsers
+    let webService = WebService(feature: .users(.getUsers))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         Task { @MainActor in
             do {
-                _ = try await webService.fetchUsers()
+                // Fetch users using the WebService
+                let users = try await webService.fetchUsers()
+                print("Users fetched: \(users)")
             } catch {
-                print(error)
+                print("Error occurred: \(error)")
             }
         }
     }
-
-
 }
 

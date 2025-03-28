@@ -20,21 +20,21 @@ enum PostDetailRequestManager: AsURLRequest {
     
     var method: String {
         switch self {
-        case .postDetail(let postID):
+        case .postDetail:
             return "GET"
         }
     }
     
     var header: String? {
         switch self {
-        case .postDetail(let postID):
+        case .postDetail:
             return "application/json"
         }
     }
     
     var body: String? {
         switch self {
-        case .postDetail(let postID):
+        case .postDetail:
             return nil
         }
     }
