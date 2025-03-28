@@ -7,7 +7,11 @@
 
 import Foundation
 
-final class WebService {
+protocol NetworkCall {
+    func baseRequest<T: Codable>(feature: APIFeature) async throws -> T
+}
+
+final class WebService: NetworkCall {
     
     enum RequestError: Error {
         case invalidURL
