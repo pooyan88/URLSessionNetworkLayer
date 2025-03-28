@@ -15,10 +15,15 @@ final class WebService {
     }
     
     private let interceptor = NetworkInterceptor() // Use the interceptor
+    private let factory = RequestFactory()
+    var feature: APIFeature
+    init(feature: APIFeature) {
+        self.feature = feature
+    }
     
-    func baseRequest<T: Codable>(_ request: RequestManager) async throws -> T {
+    func baseRequest<T: Codable>(_ feature: APIFeature) async throws -> T {
         
-        let (data, response) = try await interceptor.request(request.asURLRequest())
+        let (data, response) = try await interceptor.request(factory.createRequest(for: feature).asURLRequest())
         
         if let response = response as? HTTPURLResponse {
             print("HTTP Response: \(response.statusCode)")
@@ -48,6 +53,6 @@ final class WebService {
 
 extension WebService {
     func fetchUsers() async throws -> [User] {
-        return try await baseRequest(.getUsers)
+        return try await baseRequest(.users(UserRequestManager))
     }
 }

@@ -7,6 +7,11 @@
 
 import Foundation
 
+enum APIFeature {
+    case users(UserRequestManager)
+    case posts(PostDetailRequestManager)
+}
+
 protocol AsURLRequest {
     var timeOutDuration: TimeInterval { get }
     var method: String { get }
