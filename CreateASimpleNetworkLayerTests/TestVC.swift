@@ -20,6 +20,7 @@ final class TestVC: XCTestCase {
 // Test Functions
 extension TestVC {
     
+    @MainActor
     func testResponse() async throws {
         let vc = getVC()
         
@@ -27,7 +28,7 @@ extension TestVC {
         let expectation = XCTestExpectation(description: "Wait for fetchPostDetails")
         
         Task {
-            await vc.viewDidLoad() // Call it asynchronously
+            vc.viewDidLoad() // Call it asynchronously
             expectation.fulfill()
         }
         
