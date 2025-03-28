@@ -17,8 +17,8 @@ class ViewController: UIViewController {
         Task { @MainActor in
             do {
                 // Fetch users using the WebService
-                let users = try await webService.fetchUsers()
-                print("Users fetched: \(users)")
+                let post = try await webService.fetchPostDetails(id: 1)
+                print("post fetched: \(post)")
             } catch {
                 print("Error occurred: \(error)")
             }

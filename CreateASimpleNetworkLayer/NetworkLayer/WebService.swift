@@ -21,7 +21,7 @@ final class WebService {
     
     // Use the feature to customize the requests
     
-    func baseRequest<T: Codable>(feature: APIFeature) async throws -> T {
+     func baseRequest<T: Codable>(feature: APIFeature) async throws -> T {
         // Generate the request using the feature
         let requestManager = factory.createRequest(for: feature)
         
@@ -60,12 +60,3 @@ final class WebService {
         }
     }
 }
-
-// Extension for fetching users
-extension WebService {
-    func fetchUsers() async throws -> [User] {
-        let requestManager: UserRequestManager = .getUsers
-        return try await baseRequest(feature: .users(requestManager))
-    }
-}
-

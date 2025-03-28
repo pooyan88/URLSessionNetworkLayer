@@ -25,6 +25,8 @@ class NetworkInterceptor {
         while retries <= maxRetryCount {
             do {
                 let (data, response) = try await session.data(for: urlRequest)
+                let logger = RequestLogger(response: response as! HTTPURLResponse, urlRequest: urlRequest)
+                logger.log()
                 await handleRefreshToken(for: response)
                 return (data, response)
             } catch {
