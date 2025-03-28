@@ -9,9 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    // Instantiate WebService with a specific feature
-    let requestManager: UserRequestManager = .getUsers
-    let webService = WebService(feature: .users(.getUsers))
+    let webService = WebService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
