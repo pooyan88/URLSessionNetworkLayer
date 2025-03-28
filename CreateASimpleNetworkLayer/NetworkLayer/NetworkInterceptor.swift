@@ -25,13 +25,14 @@ class NetworkInterceptor {
         while retries <= maxRetryCount {
             do {
                 let (data, response) = try await session.data(for: urlRequest)
+                await handleRefreshToken(for: response)
                 return (data, response)
             } catch {
                 if shouldRetry(error: error), retries < maxRetryCount {
                     let delay = retryDelay * pow(2.0, Double(retries)) // create a delay before recall
                     print("Retrying request (\(retries + 1)) after \(delay) seconds due to error: \(error.localizedDescription)")
                     
-                    try await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000)) // Convert seconds to nanoseconds
+                    try await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
                     retries += 1
                 } else {
                     throw error // If max retries are reached, throw the error
@@ -40,6 +41,29 @@ class NetworkInterceptor {
         }
         
         throw URLError(.timedOut) // Fallback error if all retries fail
+    }
+    
+    private func handleRefreshToken(for response: URLResponse) async {
+        if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 401 {
+            print("Token refreshed due to 401 Unauthorized error.")
+            
+            // Simulating a token refresh request (this is just an example)
+            do {
+                let newToken = try await refreshAuthToken()
+                // Update the token in your session, for example:
+                // KeychainManager.shared.token = newToken
+                print("New token: \(newToken)")
+            } catch {
+                print("Failed to refresh token: \(error)")
+            }
+        }
+    }
+
+    private func refreshAuthToken() async throws -> String {
+        // Simulating a network call to refresh the token
+        // Replace this with the actual network call to refresh the token
+        try await Task.sleep(nanoseconds: 2_000_000_000)  // Simulate a 2-second delay
+        return "newAuthToken123"  // Return the new token
     }
     
     private func shouldRetry(error: Error) -> Bool {
