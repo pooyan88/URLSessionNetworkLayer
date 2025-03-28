@@ -18,9 +18,7 @@ final class WebService {
     
     private let interceptor = NetworkInterceptor() // Use the interceptor
     private let factory = RequestFactory()
-    
-    // Use the feature to customize the requests
-    
+        
      func baseRequest<T: Codable>(feature: APIFeature) async throws -> T {
         // Generate the request using the feature
         let requestManager = factory.createRequest(for: feature)
@@ -45,7 +43,6 @@ final class WebService {
             }
         }
         
-        // Print raw response data for debugging
         if let rawString = String(data: data, encoding: .utf8) {
             print("Raw Response Data: \(rawString)")
         }
