@@ -22,9 +22,17 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A2063B832D96FE2E0024B738 /* Exceptions for "CreateASimpleNetworkLayer" folder in "CreateASimpleNetworkLayerTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Extensions/XCTestCaseExtension.swift,
+			);
+			target = A2E5705A2D96D34F00DA3594 /* CreateASimpleNetworkLayerTests */;
+		};
 		A29F9D362D967D2B0033267A /* Exceptions for "CreateASimpleNetworkLayer" folder in "CreateASimpleNetworkLayer" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Extensions/XCTestCaseExtension.swift,
 				Info.plist,
 			);
 			target = A29F9D232D967D2B0033267A /* CreateASimpleNetworkLayer */;
@@ -36,6 +44,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				A29F9D362D967D2B0033267A /* Exceptions for "CreateASimpleNetworkLayer" folder in "CreateASimpleNetworkLayer" target */,
+				A2063B832D96FE2E0024B738 /* Exceptions for "CreateASimpleNetworkLayer" folder in "CreateASimpleNetworkLayerTests" target */,
 			);
 			path = CreateASimpleNetworkLayer;
 			sourceTree = "<group>";

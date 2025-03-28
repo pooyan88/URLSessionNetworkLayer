@@ -23,17 +23,7 @@ extension TestVC {
     @MainActor
     func testResponse() async throws {
         let vc = getVC()
-        
-        // Using expectation to wait for async call
-        let expectation = XCTestExpectation(description: "Wait for fetchPostDetails")
-        
-        Task {
-            vc.viewDidLoad() // Call it asynchronously
-            expectation.fulfill()
-        }
-        
-        await fulfillment(of: [expectation], timeout: 5.0)
-        
-        XCTAssertEqual(vc.post?.userID, 10000) // Matching mock data
+        await delay(2.0, vc: vc)
+        XCTAssertEqual(vc.post?.userID, 10000)
     }
 }
